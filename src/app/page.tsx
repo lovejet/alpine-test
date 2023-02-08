@@ -29,12 +29,16 @@ export default function Home() {
             file: undefined
           }}
           onSubmit={async values => {
+            const formData = new FormData();
+            formData.append('date', values.date || '');
+            formData.append('vendorName', values.vendorName || '');
+            formData.append('file', values.file || '');
             try {
               const res = await axios.post(
                 `${BASE_API_URL}/api/${API_VERSION}/purchases/validation`,
-                values
+                formData
               );
-              if (res.data.valid === true) {
+              if (res.data.isValid === true) {
                 alert('Upload successfully!! This is a valid data!');
               } else {
                 alert('Upload failed! This is not an valid data!');
