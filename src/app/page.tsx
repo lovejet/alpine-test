@@ -1,11 +1,11 @@
 'use client';
 import styles from './page.module.css';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, ErrorMessage } from 'formik';
 import * as yup from 'yup';
+import axios from 'axios';
+import { BASE_API_URL, API_VERSION } from '../config';
 
 export default function Home() {
-  const handleSubmit = () => {};
-
   return (
     <main className={styles.main}>
       <div className={styles.description}>
@@ -24,27 +24,38 @@ export default function Home() {
       <div className={styles.center}>
         <Formik
           initialValues={{
-            date: null,
-            vendorName: null,
-            file: null
+            date: undefined,
+            vendorName: undefined,
+            file: undefined
           }}
-          onSubmit={values => {
-            // console.log(values);
+          onSubmit={async values => {
+            try {
+              const res = await axios.post(
+                `${BASE_API_URL}/api/${API_VERSION}/purchases/validation`,
+                values
+              );
+              if (res.data.valid === true) {
+                alert('Upload successfully!! This is a valid data!');
+              } else {
+                alert('Upload failed! This is not an valid data!');
+              }
+            } catch {
+              alert('Something went wrong');
+            }
           }}
           validationSchema={yup.object().shape({
             date: yup.date().required(),
-            venorName: yup.string().required(),
+            vendorName: yup.string().required(),
             file: yup.mixed().required()
           })}
         >
-          {({ values, handleSubmit, setFieldValue }) => {
+          {({ errors, handleSubmit, setFieldValue }) => {
             return (
               <Form onSubmit={handleSubmit}>
                 <div>
                   <label htmlFor='date'>Date : </label>
                   <input
                     type='date'
-                    value={values.date || ''}
                     onChange={e => {
                       setFieldValue('date', e.target.value);
                     }}
@@ -54,7 +65,6 @@ export default function Home() {
                   <label htmlFor='date'>Vendor Name : </label>
                   <input
                     type='text'
-                    value={values.vendorName || ''}
                     onChange={e => {
                       setFieldValue('vendorName', e.target.value);
                     }}
@@ -64,8 +74,9 @@ export default function Home() {
                   <label htmlFor='date'>Details File : </label>
                   <input
                     type='file'
-                    value={values.file || ''}
                     onChange={e => {
+                      console.log(e.target.files);
+                      console.log(errors);
                       setFieldValue(
                         'file',
                         e.target.files ? e.target.files[0] : null
