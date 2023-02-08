@@ -1,91 +1,86 @@
-import Image from 'next/image'
-import { Inter } from '@next/font/google'
-import styles from './page.module.css'
-
-const inter = Inter({ subsets: ['latin'] })
+'use client';
+import styles from './page.module.css';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as yup from 'yup';
 
 export default function Home() {
+  const handleSubmit = () => {};
+
   return (
     <main className={styles.main}>
       <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
+        <p>Alpine Home Assignment</p>
         <div>
           <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            href='https://lovejetpad.vercel.app/'
+            target='_blank'
+            rel='noopener noreferrer'
           >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
+            By lovejet
           </a>
         </div>
       </div>
 
       <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-        <div className={styles.thirteen}>
-          <Image src="/thirteen.svg" alt="13" width={40} height={31} priority />
-        </div>
+        <Formik
+          initialValues={{
+            date: null,
+            vendorName: null,
+            file: null
+          }}
+          onSubmit={values => {
+            // console.log(values);
+          }}
+          validationSchema={yup.object().shape({
+            date: yup.date().required(),
+            venorName: yup.string().required(),
+            file: yup.mixed().required()
+          })}
+        >
+          {({ values, handleSubmit, setFieldValue }) => {
+            return (
+              <Form onSubmit={handleSubmit}>
+                <div>
+                  <label htmlFor='date'>Date : </label>
+                  <input
+                    type='date'
+                    value={values.date || ''}
+                    onChange={e => {
+                      setFieldValue('date', e.target.value);
+                    }}
+                  />
+                </div>
+                <div>
+                  <label htmlFor='date'>Vendor Name : </label>
+                  <input
+                    type='text'
+                    value={values.vendorName || ''}
+                    onChange={e => {
+                      setFieldValue('vendorName', e.target.value);
+                    }}
+                  />
+                </div>
+                <div>
+                  <label htmlFor='date'>Details File : </label>
+                  <input
+                    type='file'
+                    value={values.file || ''}
+                    onChange={e => {
+                      setFieldValue(
+                        'file',
+                        e.target.files ? e.target.files[0] : null
+                      );
+                    }}
+                  />
+                </div>
+                <input type='submit' className='submitButton' />
+              </Form>
+            );
+          }}
+        </Formik>
       </div>
 
-      <div className={styles.grid}>
-        <a
-          href="https://beta.nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+      <div className={styles.grid}></div>
     </main>
-  )
+  );
 }
