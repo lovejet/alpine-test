@@ -69,9 +69,12 @@ export default function Home() {
           {({ values, errors, handleSubmit, setFieldValue, touched }) => {
             return (
               <Form onSubmit={handleSubmit}>
-                <div>
-                  <label htmlFor='date'>Date : </label>
+                <div className={styles.field}>
+                  <label htmlFor='date' className={styles.label}>
+                    Date :{' '}
+                  </label>
                   <input
+                    className={styles.input}
                     type='date'
                     value={values.date || ''}
                     onChange={e => {
@@ -80,9 +83,12 @@ export default function Home() {
                   />
                   <ErrorMessage name='date' />
                 </div>
-                <div>
-                  <label htmlFor='Vendor Name'>Vendor Name : </label>
+                <div className={styles.field}>
+                  <label htmlFor='Vendor Name' className={styles.label}>
+                    Vendor Name :{' '}
+                  </label>
                   <input
+                    className={styles.input}
                     type='text'
                     value={values.vendorName || ''}
                     onChange={e => {
@@ -91,9 +97,12 @@ export default function Home() {
                   />
                   <ErrorMessage name='vendorName' />
                 </div>
-                <div>
-                  <label htmlFor='File'>Details File : </label>
+                <div className={styles.field}>
+                  <label htmlFor='File' className={styles.label}>
+                    Details File :{' '}
+                  </label>
                   <input
+                    className={styles.input}
                     type='file'
                     ref={inputFileRef}
                     onChange={e => {
@@ -105,7 +114,7 @@ export default function Home() {
                   />
                   <ErrorMessage name='file' />
                 </div>
-                <input type='submit' className='submitButton' />
+                <input type='submit' className={styles.submitButton} />
               </Form>
             );
           }}

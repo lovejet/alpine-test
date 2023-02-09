@@ -7,6 +7,29 @@
   min-height: 100vh;
 }
 
+.field {
+  display: flex;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.label {
+  font-size: 24px;
+  margin-right: 8px;
+}
+
+.input {
+  flex: 1;
+}
+
+.submitButton {
+  display: flex;
+  margin: auto;
+  font-size: 20px;
+  padding: 4px;
+}
+
 .description {
   display: inherit;
   justify-content: inherit;
